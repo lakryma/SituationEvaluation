@@ -8,7 +8,6 @@ package controller;
 import dao.FunctionDAO;
 import dao.UserDAO;
 import java.util.ArrayList;
-import javax.swing.JComboBox;
 import model.Function;
 import model.User;
 import view.NewUserView;
@@ -26,57 +25,69 @@ public class NewUserController {
     
 //------------------------------------------------------------------------------
     
-    public NewUserController() {
-   
-    }
-    
-//------------------------------------------------------------------------------
-    
     public NewUserController(UserDAO userDAO) {
        
         this.userDAO = userDAO;
     }
 
 //------------------------------------------------------------------------------
+    // create new user with informations
     
-    public void CreateNewUser(NewUserView newUserView) {
-                                
-    User user = new User();
+    public boolean CreateNewUser(NewUserView newUserView) {     
+        
+        User user = new User();
+        
     
-    String pseudo = newUserView.getTf_pseudo().getText();
-    String password = newUserView.getPf_password().getText();
-    String firstname = newUserView.getTf_firstname().getText();
-    String lastname = newUserView.getTf_lastname().getText();
-    String mail = newUserView.getTf_mail().getText();
-    String tel = newUserView.getTf_tel().getText();
-    String address = newUserView.getTf_address().getText();
-    String city = newUserView.getTf_city().getText();
-    String country = newUserView.getTf_country().getText();
+        String pseudo = newUserView.getTf_pseudo().getText();
+        String password = newUserView.getPf_password().getText();
+        String firstname = newUserView.getTf_firstname().getText();
+        String lastname = newUserView.getTf_lastname().getText();
+        String mail = newUserView.getTf_mail().getText();
+        String tel = newUserView.getTf_tel().getText();
+        String address = newUserView.getTf_address().getText();
+        String city = newUserView.getTf_city().getText();
+        String country = newUserView.getTf_country().getText();
     
-    user.setFirstname(firstname);
-    user.setLastname(lastname);
-    user.setMail(mail);
-    user.setTel(tel);
-    user.setAddress(address);
-    user.setCity(city);
-    user.setCountry(country);
-    user.setFunction(0);
+        user.setFirstname(firstname);
+        user.setLastname(lastname);
+        user.setMail(mail);
+        user.setTel(tel);
+        user.setAddress(address);
+        user.setCity(city);
+        user.setCountry(country);
     
-    userDAO.create(user);
+    // if fields are empty
+       if( pseudo.equals("") || password.equals("") ||firstname.equals("") || 
+           lastname.equals("") || mail.equals("") ||
+          tel.equals("") || address.equals("") ||
+           city.equals("") || country.equals("") ) {
+        
+       }else {
+     
+    // else create user       
+           user =  userDAO.create(user);
+       }
+        boolean result = this.userDAO.isValid(user);
+     
+    return result;     
+  
 }
 //------------------------------------------------------------------------------    
- 
-public void addComboBox(JComboBox cb_function){
+    // ArrayList comboBox for function user
     
-    FunctionDAO functionDAO = new FunctionDAO();
-    ArrayList <Function> function = new ArrayList<>();
+    public ArrayList<String> addComboBox(){
     
-    function = functionDAO.getAll();
+        ArrayList<String> listFunctions = new ArrayList<>();
+        FunctionDAO functionDAO = new FunctionDAO();
+        ArrayList <Function> functions = new ArrayList<>();
     
-    cb_function.addItem("");
+        functions = functionDAO.getAll();
     
-    for(int i = 0; i < function.size(); i++){
-        cb_function.addItem(function.get(i).getDefinition());
+        listFunctions.add("");   
+    
+        for(int i = 0; i < functions.size(); i++){
+        listFunctions.add(functions.get(i).getDefinition());
     }
+    return listFunctions;
 }
 }
