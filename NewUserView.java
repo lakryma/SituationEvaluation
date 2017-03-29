@@ -325,8 +325,8 @@ public class NewUserView extends javax.swing.JPanel {
     tf_address.setText("");
     tf_city.setText("");
     tf_country.setText("");
+    cb_admin.setSelected(false);
     
-        
     }//GEN-LAST:event_bt_cancelActionPerformed
 
     private void cb_adminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_adminActionPerformed
@@ -340,7 +340,7 @@ public class NewUserView extends javax.swing.JPanel {
         this.newUserController = new NewUserController();
         
     }
-    
+ 
 //------------------------------------------------------------------------------
     
     public JTextField getjTextField1() {
